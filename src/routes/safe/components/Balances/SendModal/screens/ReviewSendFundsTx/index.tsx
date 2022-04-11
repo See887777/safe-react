@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { toTokenUnit } from 'src/logic/tokens/utils/humanReadableValue'
-import { getExplorerInfo, getNativeCurrency } from 'src/config'
+import { getExplorerInfo, getNativeCurrency, _getChainId } from 'src/config'
 import Divider from 'src/components/Divider'
 import Block from 'src/components/layout/Block'
 import Col from 'src/components/layout/Col'
@@ -12,7 +12,7 @@ import Hairline from 'src/components/layout/Hairline'
 import Paragraph from 'src/components/layout/Paragraph'
 import Row from 'src/components/layout/Row'
 import PrefixedEthHashInfo from 'src/components/PrefixedEthHashInfo'
-import { getSpendingLimitContract } from 'src/logic/contracts/spendingLimitContracts'
+import { getSpendingLimitContract, getSpendingLimitModuleAddress } from 'src/logic/contracts/spendingLimitContracts'
 import { createTransaction } from 'src/logic/safe/store/actions/createTransaction'
 import { TX_NOTIFICATION_TYPES } from 'src/logic/safe/transactions'
 import { getERC20TokenContract } from 'src/logic/tokens/store/actions/fetchTokens'
@@ -99,7 +99,8 @@ const ReviewSendFundsTx = ({ onClose, onPrev, tx }: ReviewTxProps): React.ReactE
   const submitTx = async (txParameters: TxParameters, delayExecution: boolean) => {
     if (isSpendingLimitTx && txToken && tx.tokenSpendingLimit) {
       const spendingLimitTokenAddress = isSendingNativeToken ? ZERO_ADDRESS : txToken.address
-      const spendingLimit = getSpendingLimitContract()
+      const spendingLimitModuleAddress = getSpendingLimitModuleAddress(_getChainId())
+      const spendingLimit = getSpendingLimitContract(spendingLimitModuleAddress)
       try {
         trackEvent(MODALS_EVENTS.USE_SPENDING_LIMIT)
 

@@ -11,7 +11,6 @@ import { TX_NOTIFICATION_TYPES } from 'src/logic/safe/transactions'
 import { getDeleteAllowanceTxData } from 'src/logic/safe/utils/spendingLimits'
 import { fromTokenUnit } from 'src/logic/tokens/utils/humanReadableValue'
 import { TxParameters } from 'src/routes/safe/container/hooks/useTransactionParameters'
-import { SPENDING_LIMIT_MODULE_ADDRESS } from 'src/utils/constants'
 import { getResetTimeOptions } from './FormFields/ResetTime'
 import { AddressInfo, ResetTimeInfo } from './InfoDisplay'
 import { SpendingLimitTable } from './LimitsTable/dataFetcher'
@@ -20,6 +19,8 @@ import { TxModalWrapper } from 'src/routes/safe/components/Transactions/helpers/
 import { TransferAmount } from 'src/routes/safe/components/Balances/SendModal/TransferAmount'
 import { trackEvent } from 'src/utils/googleTagManager'
 import { SETTINGS_EVENTS } from 'src/utils/events/settings'
+import { getSpendingLimitModuleAddress } from 'src/logic/contracts/spendingLimitContracts'
+import { _getChainId } from 'src/config'
 
 interface RemoveSpendingLimitModalProps {
   onClose: () => void
@@ -32,6 +33,7 @@ export const RemoveLimitModal = ({ onClose, spendingLimit, open }: RemoveSpendin
   const safeAddress = extractSafeAddress()
   const [txData, setTxData] = useState('')
   const dispatch = useDispatch()
+  const spendingLimitAddress = getSpendingLimitModuleAddress(_getChainId())
 
   useEffect(() => {
     const {
@@ -47,7 +49,7 @@ export const RemoveLimitModal = ({ onClose, spendingLimit, open }: RemoveSpendin
       dispatch(
         createTransaction({
           safeAddress,
-          to: SPENDING_LIMIT_MODULE_ADDRESS,
+          to: spendingLimitAddress,
           valueInWei: '0',
           txData,
           txNonce: txParameters.safeNonce,
@@ -79,7 +81,7 @@ export const RemoveLimitModal = ({ onClose, spendingLimit, open }: RemoveSpendin
     >
       <TxModalWrapper
         txData={txData}
-        txTo={SPENDING_LIMIT_MODULE_ADDRESS}
+        txTo={spendingLimitAddress}
         onSubmit={removeSelectedSpendingLimit}
         onClose={onClose}
         submitText="Remove"
