@@ -7,12 +7,13 @@ import Row from 'src/components/layout/Row'
 import Col from 'src/components/layout/Col'
 import PendingTxsList from 'src/components/Dashboard/PendingTxs/PendingTxsList'
 
-import AddSafeWidget from 'src/components/Dashboard/AddSafe'
 import CreateSafeWidget from 'src/components/Dashboard/CreateSafe'
+import Overview from 'src/components/Dashboard/Overview/Overview'
+import { lg } from 'src/theme/variables'
 
 const Card = styled.div`
   background: #fff;
-  padding: 40px;
+  padding: ${lg};
   border-radius: 8px;
   flex: 1;
   margin: 10px;
@@ -37,7 +38,7 @@ function Home(): ReactElement {
 
       <Row>
         <Card>
-          <AddSafeWidget />
+          <Overview />
         </Card>
 
         <Card>
