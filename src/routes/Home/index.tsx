@@ -9,6 +9,7 @@ import PendingTxsList from 'src/components/Dashboard/PendingTxs/PendingTxsList'
 
 import AddSafeWidget from 'src/components/Dashboard/AddSafe'
 import CreateSafeWidget from 'src/components/Dashboard/CreateSafe'
+import { FeaturedApps } from 'src/components/Dashboard/FeaturedApps/FeaturedApps'
 
 const Card = styled.div`
   background: #fff;
@@ -47,7 +48,8 @@ function Home(): ReactElement {
 
       <Row>
         <Card>
-          <h2>Owned Safes</h2>
+          <h2>Safe Apps</h2>
+          <FeaturedApps />
         </Card>
 
         <Card>
