@@ -125,3 +125,7 @@ export const generatePrefixedAddressRoutes = (params: SafeRouteParams): typeof S
     {} as typeof STANDARD_SAFE_ROUTES,
   )
 }
+
+export const getSafeAppUrl = (appUrl: string, routesSlug: SafeRouteParams): string => {
+  return generateSafeRoute(SAFE_ROUTES.APPS, routesSlug) + `?appUrl=${appUrl}`
+}
